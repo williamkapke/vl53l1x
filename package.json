@@ -1,0 +1,23 @@
+{
+  "name": "vl53l1x",
+  "version": "1.0.0",
+  "description": "A Node.js library for a vl53l1x device",
+  "main": "vl53l1x_old.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/williamkapke/vl53l1x.git"
+  },
+  "author": "William Kapke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/williamkapke/vl53l1x/issues"
+  },
+  "homepage": "https://github.com/williamkapke/vl53l1x#readme",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "i2c-bus": "^5.1.0"
+  }
+}
