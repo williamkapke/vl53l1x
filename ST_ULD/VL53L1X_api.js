@@ -123,7 +123,8 @@ const VL53L1X_SensorInit = async (dev, configuration = VL51L1X_DEFAULT_CONFIGURA
 	await VL53L1_WrMulti(dev, 0x2D, Buffer.from(configuration))
 	await VL53L1X_StartRanging(dev)
 
-	while(!(await VL53L1X_CheckForDataReady(dev))){}
+	const polarity = await VL53L1X_GetInterruptPolarity(dev)
+	while(!(await VL53L1X_CheckForDataReady(dev, polarity))){}
 
 	await VL53L1X_StopRanging(dev)
 	await VL53L1X_ClearInterrupt(dev)
@@ -154,8 +155,7 @@ const VL53L1X_StopRanging = (dev) => {
 	return VL53L1_WrByte(dev, REG.SYSTEM__MODE_START, 0x00)	/* Disable VL53L1X */
 }
 
-const VL53L1X_CheckForDataReady = async (dev) => {
-	const polarity = await VL53L1X_GetInterruptPolarity(dev)
+const VL53L1X_CheckForDataReady = async (dev, polarity) => {
 	const temp = await VL53L1_RdByte(dev, REG.GPIO__TIO_HV_STATUS)
 	return (temp & 1) === polarity
 }
@@ -293,7 +293,7 @@ const VL53L1X_SetInterMeasurementInMs = async (dev, InterMeasMs) => {
 const VL53L1X_GetInterMeasurementInMs = async (dev) => {
 	const pIM = await VL53L1_RdDWord(dev, REG.SYSTEM__INTERMEASUREMENT_PERIOD)
 	const ClockPLL = (await VL53L1_RdWord(dev, REG.RESULT__OSC_CALIBRATE_VAL)) & 0x3FF
-	return pIM / (ClockPLL * 1.065)
+	return pIM / (ClockPLL * 1.075) // ST code had 1.065?
 }
 
 const VL53L1X_BootState = (dev) => {
@@ -460,7 +460,8 @@ const VL53L1X_StartTemperatureUpdate = async (dev) => {
 	await VL53L1_WrByte(dev, REG.VHV_CONFIG__TIMEOUT_MACROP_LOOP_BOUND,0x81) /* full VHV */
 	await VL53L1_WrByte(dev,0x0B,0x92)
 	await VL53L1X_StartRanging(dev)
-	while(!(await VL53L1X_CheckForDataReady(dev))){}
+	const polarity = await VL53L1X_GetInterruptPolarity(dev)
+	while(!(await VL53L1X_CheckForDataReady(dev, polarity))){}
 
 	await VL53L1X_ClearInterrupt(dev)
 	await VL53L1X_StopRanging(dev)
