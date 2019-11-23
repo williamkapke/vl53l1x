@@ -1,8 +1,8 @@
 {
   "name": "vl53l1x",
   "version": "1.0.0",
-  "description": "A Node.js library for a vl53l1x device",
-  "main": "vl53l1x_old.js",
+  "description": "A Node.js library for a vl53l1x TOF distance sensor",
+  "main": "vl53l1x.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
