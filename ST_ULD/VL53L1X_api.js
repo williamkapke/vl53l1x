@@ -346,11 +346,11 @@ const VL53L1X_GetResult = async (dev) => {
 	}
 
 	return {
-		Status     : RgSt,
-		Ambient    : Temp.readUInt16BE(7) * 8,
-		NumSPADs   : Temp[3],
-		SigPerSPAD : Temp.readUInt16BE(15) * 8,
-		Distance   : Temp.readUInt16BE(13),
+		status     : RgSt,
+		ambient    : Temp.readUInt16BE(7) * 8,
+		numSPADs   : Temp[3],
+		sigPerSPAD : Temp.readUInt16BE(15) * 8,
+		distance   : Temp.readUInt16BE(13),
 	}
 }
 
