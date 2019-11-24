@@ -7,8 +7,8 @@ const EventEmitter = require('events').EventEmitter;
 
 const VL53L1X = (bus, addr=0x29, options = {}) => {
   if (typeof bus !== 'object') {
-    if (!options.provider) options.provider = 'i2c-bus'
-    return require(options.provider).openPromisified(bus).then((bus) => VL53L1X(bus, addr, options))
+    if (!options.driver) options.driver = 'i2c-bus'
+    return require(options.driver).openPromisified(bus).then((bus) => VL53L1X(bus, addr, options))
   }
 
   const dev = i2c(addr, bus)
@@ -132,8 +132,11 @@ const VL53L1X = (bus, addr=0x29, options = {}) => {
     offset: (mm) => {
       return st_uld.VL53L1X_SetOffset(dev, mm)
     },
+    xtalk: (cps) => {
+      return st_uld.VL53L1X_SetXtalk(dev, cps)
+    },
     //TODO
-    // get/set xtalk
+    // get xtalk
     // get ROI
     // get mode
     // get device api version
